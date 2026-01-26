@@ -289,18 +289,18 @@ html[data-device] body {
   box-shadow: 0px 0px calc(var(--s) * 6px) calc(var(--s) * 2px) #ebd661;
 }
 
-html[data-device="desktop"] .card[data-tag="playable"]:hover {
+html[data-device="desktop"] [data-active] .card[data-tag="playable"]:hover {
   transform: translateY(calc(var(--s) * var(--card-hover)));
   box-shadow: 0px 0px calc(var(--s) * 6px) calc(var(--s) * 2px) #ebd661;
   cursor: pointer;
 }
 
-html[data-device="desktop"] .card[data-tag="selectable"]:hover {
+html[data-device="desktop"] [data-active] .card[data-tag="selectable"]:hover {
   box-shadow: 0px 0px calc(var(--s) * 6px) calc(var(--s) * 2px) #ebd661;
   cursor: pointer;
 }
 
-html[data-device="desktop"] .card[data-tag="selectable"]:active {
+html[data-device="desktop"] [data-active] .card[data-tag="selectable"]:active {
   box-shadow: 0px 0px calc(var(--s) * 6px) calc(var(--s) * 2px) #ebd66166;
   filter: brightness(85%);
 }

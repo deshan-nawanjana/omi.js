@@ -226,7 +226,7 @@ class Game {
    * Shuffles and divides cards between players
    * @returns {boolean} Success status
    */
-  shuffle() {
+  start() {
     // return if currently playing
     if (this.status === "playing") return false
     // create a deck of cards
@@ -353,7 +353,7 @@ class Game {
     // switch by game status
     if (this.status === "pending" || this.status === "restart") {
       // shuffle and divide card of the deck
-      return this.shuffle()
+      return this.start()
     } else if (this.status === "trump") {
       // get first four cards of current player
       const cards = this.player.hand.cards.slice(0, this.players.length)

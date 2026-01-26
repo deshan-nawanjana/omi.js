@@ -155,7 +155,9 @@ new Vue({
     // current trump
     trump: null,
     // selected level
-    level: "easy"
+    level: "easy",
+    // locked status
+    locked: false,
   },
   // computed values
   computed: {
@@ -169,8 +171,8 @@ new Vue({
   methods: {
     // method to start game
     start() {
-      // shuffle deck to start
-      game.shuffle()
+      // start game
+      game.start()
       // check if current player
       if (this.isPlayer) {
         // show first four card of player
@@ -185,8 +187,12 @@ new Vue({
     },
     // method on card selection
     select(card) {
+      // return if locked
+      if (this.locked) return
       // check for trump selection state
       if (card.tag === "selectable" && this.isTrump) {
+        // lock user inputs
+        this.locked = true
         // set trump suit for the game
         const data = game.setTrump(card.suit)
         // display trump suit
@@ -196,6 +202,8 @@ new Vue({
         // update options
         this.update(data)
       } else if (card.tag === "playable" && this.isPlayer) {
+        // lock user inputs
+        this.locked = true
         // clear card tag
         card.tag = null
         // play card for the trick
@@ -253,6 +261,8 @@ new Vue({
         // clear trick slots
         this.trick = { ...slots }
       }
+      // unlock controls if turn for player
+      if (this.isPlayer) { this.locked = false }
       // clear trump on restart
       if (game.status === "restart") this.trump = null
       // round starting flag

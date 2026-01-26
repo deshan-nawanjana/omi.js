@@ -70,7 +70,7 @@
     </div>
   </template>
   <!-- app root -->
-  <div id="app" :data-ready="ready">
+  <div id="app" :data-ready="ready" :data-active="!locked">
     <!-- home screen -->
     <div class="board home" v-if="!isPlaying">
       <div class="logo"></div>
@@ -129,7 +129,7 @@
         <div class="board-content">
           <!-- board message -->
           <div class="board-message">
-            <div class="board-message-text" v-if="isPlayer && isTrump">
+            <div class="board-message-text" v-if="isPlayer && isTrump && !locked">
               Select a trump suit
             </div>
             <div class="board-message-text" v-if="!isPlayer">
@@ -140,7 +140,7 @@
           <trick :cards="trick" :select="select"></trick>
           <!-- board message -->
           <div class="board-message">
-            <div class="board-message-text" v-if="isPlayer && !isTrump">
+            <div class="board-message-text" v-if="isPlayer && !isTrump && !locked">
               Put a card
             </div>
           </div>
