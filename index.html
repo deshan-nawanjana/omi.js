@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en" oncontextmenu="return false">
+
+<head>
+  <!-- meta tags -->
+  <meta charset="UTF-8">
+  <meta name="color-scheme" content="dark">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta name="description" content="Play the most popular traditional card game in Sri Lanka!">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="robots" content="noindex, nofollow">
+  <!-- open graph tags -->
+  <meta property="og:title" content="Omi · ඕමි">
+  <meta property="og:description" content="Play the most popular traditional card game in Sri Lanka!">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://deshan-nawanjana.github.io/omi.js/">
+  <meta property="og:image" content="https://deshan-nawanjana.github.io/omi.js/assets/images/cover.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <!-- twitter card tags -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Omi · ඕමි">
+  <meta name="twitter:description" content="Play the most popular traditional card game in Sri Lanka!">
+  <meta name="twitter:image" content="https://deshan-nawanjana.github.io/omi.js/assets/images/cover.png">
+  <!-- manifest -->
+  <link rel="manifest" href="./assets/manifest.json">
+  <!-- favicon -->
+  <link rel="shortcut icon" href="./assets/images/logo.png" type="image/png">
+  <!-- style -->
+  <link rel="stylesheet" href="./index.css">
+  <!-- libraries -->
+  <script src="./assets/libraries/vue.min.js"></script>
+  <!-- script -->
+  <script src="./index.js" type="module" defer></script>
+  <!-- page title -->
+  <title>Omi · ඕමි</title>
+</head>
+
+<body>
+  <!-- template : card -->
+  <template id="card">
+    <div class="card" :data-suit="data.suit" :data-tag="data.tag" @click="select(data)">
+      <div class="card-sign" v-if="data.rank">
+        {{data.rank}}
+      </div>
+    </div>
+  </template>
+  <!-- template : hidden-hand -->
+  <template id="hidden-hand">
+    <div class="hand" :data-name="name">
+      <div class="card" v-for="(item, index) in cards"></div>
+    </div>
+  </template>
+  <!-- template : player-hand -->
+  <template id="player-hand">
+    <div class="hand" :data-name="name">
+      <card v-for="(item, index) in cards" :data="item" :key="index" :select="select"></card>
+    </div>
+  </template>
+  <!-- template : trick -->
+  <template id="trick">
+    <div class="trick">
+      <card :data="cards.west" :select="select"></card>
+      <div class="trick-col">
+        <card :data="cards.north" :select="select"></card>
+        <card :data="cards.south" :select="select"></card>
+      </div>
+      <card :data="cards.east" :select="select"></card>
+    </div>
+  </template>
+  <!-- app root -->
+  <div id="app" :data-ready="ready">
+    <!-- home screen -->
+    <div class="board home" v-if="!isPlaying">
+      <div class="logo"></div>
+      <div class="title">
+        Omi · ඕමි
+      </div>
+      <div class="levels">
+        <button class="level" v-for="item in levels" :data-selected="level === item" @click="level = item">
+          {{item}}
+        </button>
+      </div>
+      <button class="start" @click="start">
+        Start Match
+      </button>
+    </div>
+    <!-- game board -->
+    <div class="board game" v-if="isPlaying">
+      <div class="board-row">
+        <!-- scores -->
+        <div class="board-row-side">
+          <table class="score">
+            <thead>
+              <tr>
+                <td></td>
+                <td align="center">T</td>
+                <td align="center">R</td>
+              </tr>
+            </thead>
+            <tr v-for="item in teams">
+              <td align="center">{{item.name}}</td>
+              <td align="center">
+                {{item.tricks}}
+              </td>
+              <td align="center">
+                {{item.rounds}}
+              </td>
+            </tr>
+          </table>
+        </div>
+        <!-- north -->
+        <div class="board-row-middle">
+          <hidden-hand name="north" :cards="players[2].hand.cards"></hidden-hand>
+        </div>
+        <!-- trump suit -->
+        <div class="board-row-side">
+          <div class="card trump" v-if="trump" :data-suit="trump"></div>
+        </div>
+      </div>
+      <!-- middle -->
+      <div class="board-content-row">
+        <!-- west -->
+        <div class="board-col">
+          <hidden-hand name="west" :cards="players[3].hand.cards"></hidden-hand>
+        </div>
+        <!-- content -->
+        <div class="board-content">
+          <!-- board message -->
+          <div class="board-message">
+            <div class="board-message-text" v-if="isPlayer && isTrump">
+              Select a trump suit
+            </div>
+            <div class="board-message-text" v-if="!isPlayer">
+              Please wait for other players
+            </div>
+          </div>
+          <!-- trick selection -->
+          <trick :cards="trick" :select="select"></trick>
+          <!-- board message -->
+          <div class="board-message">
+            <div class="board-message-text" v-if="isPlayer && !isTrump">
+              Put a card
+            </div>
+          </div>
+        </div>
+        <!-- east -->
+        <div class="board-col">
+          <hidden-hand name="east" :cards="players[1].hand.cards"></hidden-hand>
+        </div>
+      </div>
+      <!-- south -->
+      <div class="board-row">
+        <player-hand name="south" :cards="cards" :select="select"></player-hand>
+      </div>
+    </div>
+  </div>
+</body>
+
+</html>
