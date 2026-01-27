@@ -97,6 +97,7 @@
                 <td></td>
                 <td align="center">T</td>
                 <td align="center">R</td>
+                <td align="center">S</td>
               </tr>
             </thead>
             <tr v-for="item in teams">
@@ -106,6 +107,14 @@
               </td>
               <td align="center">
                 {{item.rounds}}
+              </td>
+              <td align="center">
+                {{item.score}}
+              </td>
+            </tr>
+            <tr v-if="game.tied > 0">
+              <td colspan="4">
+                TIED x {{game.tied}}
               </td>
             </tr>
           </table>

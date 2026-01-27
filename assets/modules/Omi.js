@@ -197,6 +197,8 @@ class Team {
     this.tricks = 0
     /** @type {number} Number of rounds won by team */
     this.rounds = 0
+    /** @type {number} Score achieved by the team */
+    this.score = 0
   }
 }
 
@@ -221,6 +223,8 @@ class Game {
     this.tricks = []
     /** @type {Trick[][]} Completed rounds of the game */
     this.rounds = []
+    /** @type {number} Number of previously tied rounds */
+    this.tied = 0
   }
   /**
    * Shuffles and divides cards between players
@@ -316,16 +320,31 @@ class Game {
           // reduce players into teams
           array.includes(item.team) ? array : [...array, item.team]
         ), [])
-        // get tricks array
-        const tricks = teams.map(item => item.tricks).sort()
+        // get tricks counts array
+        const tricks = teams.map(item => item.tricks).sort().reverse()
         // get maximum tricks
         const maximum = Math.max(...tricks)
-        // check if not multiple maximum tricks
-        if (tricks.pop() !== tricks.pop()) {
-          // find winner team
+        // check if max round tricks tied
+        if (tricks[0] === tricks[1]) {
+          // increase tied round count
+          this.tied += 1
+        } else {
+          // find winner team with maximum tricks
           const winner = teams.find(item => item.tricks === maximum)
-          // increase winner team round score
+          // increase winner team rounds
           winner.rounds += 1
+          // check for tied rounds score
+          if (this.tied > 0) {
+            // increase tied rounds score
+            winner.score += this.tied + 1
+            // clear tied rounds
+            this.tied = 0
+          } else {
+            // get trump selected starter team
+            const starter = this.tricks[0].cards[0].player.team
+            // increase winner team score
+            winner.score += winner === starter ? 1 : 2
+          }
         }
         // reset each team tricks
         teams.forEach(item => item.tricks = 0)
