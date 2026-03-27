@@ -58,7 +58,7 @@ const assets = [
 // helper to preload assets
 const preload = async () => {
   for (let i = 0; i < assets.length; i++) {
-    await fetch(origin + assets[i])
+    await fetch(origin + "/omi.js" + assets[i])
   }
 }
 
