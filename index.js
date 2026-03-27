@@ -31,34 +31,34 @@ const players = [
 // difficulty levels
 const levels = ["easy", "medium", "hard"]
 
-// get current origin
-const origin = new URL(import.meta.url).origin
+// get base url
+const baseURL = window.baseURL ?? ""
 
 // assets to preload
 const assets = [
   // fonts
-  "/assets/fonts/Inter-Regular.ttf",
-  "/assets/fonts/Inter-Bold.ttf",
+  "assets/fonts/Inter-Regular.ttf",
+  "assets/fonts/Inter-Bold.ttf",
   // common
-  "/assets/images/logo.png",
-  "/assets/images/backgrounds/default.png",
-  "/assets/images/cards/default.png",
+  "assets/images/logo.png",
+  "assets/images/backgrounds/default.png",
+  "assets/images/cards/default.png",
   // suits
-  "/assets/images/suits/clubs.png",
-  "/assets/images/suits/diamonds.png",
-  "/assets/images/suits/hearts.png",
-  "/assets/images/suits/spades.png",
+  "assets/images/suits/clubs.png",
+  "assets/images/suits/diamonds.png",
+  "assets/images/suits/hearts.png",
+  "assets/images/suits/spades.png",
   // trumps
-  "/assets/images/trumps/clubs.png",
-  "/assets/images/trumps/diamonds.png",
-  "/assets/images/trumps/hearts.png",
-  "/assets/images/trumps/spades.png"
+  "assets/images/trumps/clubs.png",
+  "assets/images/trumps/diamonds.png",
+  "assets/images/trumps/hearts.png",
+  "assets/images/trumps/spades.png"
 ]
 
 // helper to preload assets
 const preload = async () => {
   for (let i = 0; i < assets.length; i++) {
-    await fetch(origin + "/omi.js" + assets[i])
+    await fetch(baseURL + assets[i])
   }
 }
 
