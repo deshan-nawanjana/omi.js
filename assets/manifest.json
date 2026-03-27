@@ -1,7 +1,7 @@
 {
   "name": "Omi",
   "short_name": "Omi",
-  "start_url": "/omi.js/",
+  "start_url": "/apps/omi",
   "display": "standalone",
   "orientation": "portrait",
   "background_color": "#000000",
